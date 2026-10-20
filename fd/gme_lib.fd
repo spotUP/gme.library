@@ -1,0 +1,18 @@
+* "gme.library"
+* Automatically generated FD (sfdc 1.12)! Do not edit!
+##base _GmeBase
+##bias 30
+##public
+* "gme.library"
+GME_Open(module,length,filename)(a0,d0,a1)
+GME_Close(handle)(a0)
+GME_GetInfo(handle,info)(a0,a1)
+GME_SetSong(handle,song,durationMs)(a0,d0,d1)
+GME_Render(handle,buffer,bytes,format)(a0,a1,d0,d1)
+GME_Seek(handle,ms)(a0,d0)
+GME_GetPosition(handle)(a0)
+GME_MuteChannels(handle,mask)(a0,d0)
+GME_SetSampleRate(handle,hz)(a0,d0)
+GME_IsOurFile(filename,module,length)(a0,a1,d0)
+GME_GetStats(stats)(a0)
+##end

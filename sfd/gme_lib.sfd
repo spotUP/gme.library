@@ -1,0 +1,22 @@
+==id $VER: gme_lib.sfd 1.0 (19.10.2026)
+* "gme.library"
+==base _GmeBase
+==basetype struct Library *
+==libname gme.library
+==include <exec/types.h>
+==include <libraries/gme.h>
+==bias 30
+==public
+==version 1
+struct GMEHandle *GME_Open(CONST UBYTE *module, LONG length, CONST_STRPTR filename) (A0,D0,A1)
+VOID GME_Close(struct GMEHandle *handle) (A0)
+LONG GME_GetInfo(struct GMEHandle *handle, struct GMEInfo *info) (A0,A1)
+LONG GME_SetSong(struct GMEHandle *handle, LONG song, LONG durationMs) (A0,D0,D1)
+LONG GME_Render(struct GMEHandle *handle, APTR buffer, LONG bytes, ULONG format) (A0,A1,D0,D1)
+LONG GME_Seek(struct GMEHandle *handle, LONG ms) (A0,D0)
+LONG GME_GetPosition(struct GMEHandle *handle) (A0)
+VOID GME_MuteChannels(struct GMEHandle *handle, ULONG mask) (A0,D0)
+LONG GME_SetSampleRate(struct GMEHandle *handle, LONG hz) (A0,D0)
+LONG GME_IsOurFile(CONST_STRPTR filename, CONST UBYTE *module, LONG length) (A0,A1,D0)
+VOID GME_GetStats(struct GMEStats *stats) (A0)
+==end
