@@ -1,7 +1,8 @@
-# Pinned third-party sources (third_party/ is otherwise untracked; make vendor copies from here).
-gme   commit f68963b1de0633149b05732113d3c3113c6f63a1  (third_party/gme)
-zlib  1.3.1  https://zlib.net/fossils/zlib-1.3.1.tar.gz
-      sha256 9a93b2b7dfdac77ceba5a558a580e74667dd6fede4585b91eefb60f03b72df23  (third_party/zlib-1.3.1, extracted, unmodified)
+# Pinned third-party sources. gme and zlib are git submodules (.gitmodules); the commit each one is
+# pinned at is recorded by git. git submodule update --init fetches them; make vendor copies from here.
+gme   commit f68963b1de0633149b05732113d3c3113c6f63a1  https://github.com/libgme/game-music-emu  (third_party/gme)
+zlib  1.3.1  tag v1.3.1 of https://github.com/madler/zlib  (third_party/zlib-1.3.1; the files make vendor copies are
+      byte-identical to https://zlib.net/fossils/zlib-1.3.1.tar.gz sha256 9a93b2b7dfdac77ceba5a558a580e74667dd6fede4585b91eefb60f03b72df23)
 bzip2 1.0.8  https://sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz
       sha256 ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a2269  (decompress side only, vendored in src/bzip2; patches below)
       patches to the vendored copy (no patch file: src/bzip2 is committed as edited): EZPK_MAGIC_SHIFT/BZ_HDR_* in bzlib_private.h and EZPK_M() in decompress.c

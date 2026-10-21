@@ -16,10 +16,15 @@ CORPUS_FILES := $(filter-out $(NEG_FILES),$(CORPUS_FILES))
 SONGMS = 30000
 RATE   = 44100
 
-.PHONY: check-ezpk vendor host host-corpus clean amiga check-core audit-syms audit-ctors includes tests check check-v171 check-vendor check-ym2413
+.PHONY: lib check-ezpk vendor host host-corpus clean amiga check-core audit-syms audit-ctors includes tests check check-v171 check-vendor check-ym2413
 .DELETE_ON_ERROR:
 
-vendor:
+# Both third_party trees are git submodules. Fail with a hint instead of make's "No rule to make target".
+SUBMODULES = $(GME)/gme.h $(ZLIB)/zlib.h
+$(SUBMODULES):
+	@echo "$@ is missing: run 'git submodule update --init'" >&2; exit 1
+
+vendor: $(SUBMODULES)
 	rm -rf src/gme src/zlib
 	mkdir -p src/gme/ext src/zlib
 	for f in $(GME)/*.cpp $(GME)/*.h; do \
@@ -37,7 +42,7 @@ HOST_CXX = $(wildcard src/gme/*.cpp)
 BZ_C     = $(wildcard src/bzip2/*.c)
 BZDEFS   = -DBZ_NO_STDIO -DBZ_DECOMPRESS_ONLY
 HOST_C   = src/ezpk.c $(BZ_C) src/gme/ext/emu2413.c $(wildcard src/zlib/*.c) $(ZLIB)/gzlib.c $(ZLIB)/gzread.c $(ZLIB)/gzclose.c $(ZLIB)/gzwrite.c $(ZLIB)/deflate.c $(ZLIB)/trees.c
-build/render-host: tools/render.cpp $(HOST_CXX) $(HOST_C) $(wildcard src/gme/*.h)
+build/render-host: $(SUBMODULES) tools/render.cpp $(HOST_CXX) $(HOST_C) $(wildcard src/gme/*.h)
 	mkdir -p build/obj
 	rm -f build/obj/*.o
 	for f in $(HOST_CXX); do $(CXX) $(OPT) -std=c++17 $(DEFS) -Isrc/gme -Isrc/zlib -c $$f -o build/obj/$$(basename $$f).o || exit 1; done
@@ -103,6 +108,7 @@ build/68k/gmelib.o: src/gmelib.c src/gmelib_int.h src/gmelib_vec.h include/libra
 	@mkdir -p build/68k; $(CC68) $(LIBCFLAGS) -c $< -o $@
 build/68k/mem_glue.o: src/mem_glue.cpp
 	@mkdir -p build/68k; $(CXX68) $(CXXFLAGS68) -c $< -o $@
+lib: build/gme.library
 build/gme.library: $(LIBOBJ) $(OBJ68)
 	$(CC68) -noixemul -nostartfiles -o $@ $(LIBOBJ) $(OBJ68) -lm -Wl,-Map,build/gme.map
 

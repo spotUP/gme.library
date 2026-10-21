@@ -75,10 +75,14 @@ register layout in `sfd/gme_lib.sfd` (and `fd/`). Calls are reentrant per handle
 Interim toolchain: bebbo gcc 6.5 in `~/opt/amiga`. Host builds use clang. Tests run under `vamos`
 (amitools) and compare 68k output byte for byte with the host build of the same core.
 
-    make vendor          # regenerate src/gme and src/zlib from third_party plus patches/
-    make host-corpus     # host reference renders of corpus/
-    make lib             # build/gme.library
-    make check           # run-tests cases under vamos, results in build/tests/*.ok|fail
+    make lib             # build/gme.library (needs only the checkout: src/gme and src/zlib are committed)
+    make host-corpus     # host reference renders of corpus/ (needs the submodules)
+    make check           # run-tests cases under vamos, results in build/tests/*.ok|fail (needs the submodules)
+    make vendor          # regenerate src/gme and src/zlib from the submodules plus patches/
+
+The third-party sources are git submodules under `third_party/` (Game_Music_Emu pinned at f68963b, zlib at
+v1.3.1; versions in `third_party/VERSIONS`). Clone with `git clone --recurse-submodules`, or run
+`git submodule update --init` in an existing checkout or a new worktree. `make lib` does not need them.
 
 Only one vamos run at a time.
 

@@ -1,8 +1,6 @@
 thoughts/spot/
 thoughts/searchable/
 build/
-third_party/*
-!third_party/VERSIONS
 rig/boot/
 rig/boot-hip/
 rig/boot-bench/
